@@ -1,0 +1,12 @@
+version: 0.2
+phases:
+  prebuild:
+    commands:
+      - echo ${DOCKERHUB_TOKEN} | docker login -u ${DOCKERHUB_USER} --password-stdin
+  build:
+    commands:
+      - docker build -t my-angular-project:latest .
+  postbuild:
+    commands:
+      - docker tag my-angular-project:latest ${DOCKERHUB_USER}/my-angular-project:latest
+      - docker push ${DOCKERHUB_USER}/my-angular-project:latest
